@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #302F2F;
+}
+
+html {
+  /* background-image: linear-gradient(to right bottom, #c2c6ee, #c6c8eb, #c9cbe8, #cdcde5, #d0d0e2, #cecede, #cdcbda, #cbc9d6, #c5c0d0, #c0b7c9, #bcaec2, #b8a5ba); */
+  background-image: url(./src/assets/backgroundTwitter.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.backCard {
+  background: rgba(255, 255, 255, 0.39);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 70px 40px;
+}
+
+.input {
+  display: block;
+  background: rgba(255, 255, 255, 0.37);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 16px;
+  @apply block mb-4 text-[17px] w-full rounded-md;
+}
+
+.inputPost {
+  display: block;
+  background: rgba(255, 255, 255, 0.37);
+  border-radius: 6px 6px 0px 0px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  margin: 0;
+  @apply block mb-4 text-[17px];
+}
+
+.profileBack {
+  background: rgba(255, 255, 255, 0.37);
+  border-radius: 6px 6px 0px 0px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 16px 10px 16px;
+  margin: 0;
+  width: 42vw;
+}
+
+input::placeholder {
+  color: #302F2F;
+  opacity: 1;
+}
+
+.drop {
+  background: rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border-left: 1px solid rgba(255, 255, 255, .3);
+  border-top: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 10px 10px 60px -8px rgba(0, 0, 0, 0.2);
+}
+
+.drop-1 {
+  height: 80px;
+  width: 80px;
+  top: -40px;
+  left: -40px;
+}
+
+.drop-2 {
+  height: 90px;
+  width: 90px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.drop-3 {
+  height: 150px;
+  width: 150px;
+  bottom: 145px;
+  left: 430px;
+}
+
+.drop-4 {
+  height: 150px;
+  width: 150px;
+  bottom: 145px;
+  left: 330px;
+}
+
+.navBack {
+  background: rgba(255, 255, 255, 0.29);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navStyle {
+  color: #302F2F;
+  position: relative;
+}
+
+.navStyle::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #302F2F;
+  border-radius: 5px;
+  transform: scaleX(0);
+  transition: all 0.6s ease;
+  bottom: 0;
+  left: 0;
+}
+
+.navStyle:hover::before {
+  transform: scaleX(1);
+}
+
+.backPost {
+  background: rgba(255, 255, 255, 0.70);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 42vw;
+  padding: 16px;
+}
+
+textarea {
+  padding: 10px 16px 0px 16px;
+  width: 42vw;
+}
+
+textarea::placeholder {
+  font-size: larger;
+}
+
+.titleProfile {
+  background: rgba(255, 255, 255);
+  box-shadow: 30px 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border-top: 1px solid rgba(206, 206, 206, 0.3);
+  border-bottom: 1px solid rgba(219, 219, 219, 0.3);
+  width: 42vw;
+  padding: 16px;
+}

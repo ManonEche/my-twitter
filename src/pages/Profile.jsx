@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { CircleUserRound, FilePenLine, Trash2 } from "lucide-react";
+import { FilePenLine, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Buttons/Button";
 import Footer from "../components/Footer/Footer";
@@ -10,11 +10,12 @@ import Nav from "../components/Nav/Nav";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
 import { toast } from 'sonner';
+import Avatar from "../components/Avatar/Avatar";
 
 export default function Profile() {
 
-  // Variable
-  const currentUser = auth.currentUser;
+  // Variables
+  const currentUser = auth.currentUser || {email: ""};
 
 
   // States
@@ -100,20 +101,16 @@ export default function Profile() {
   const handleEdit = (tweet) => {
     setEditingTweetId(tweet.id);
     setEditedText(tweet.text);
-    console.log(tweet.id);
   };
 
   const handleSaveEdit = async () => {
     try {
-      // // Trouver le tweet à modifier
+      // Trouver le tweet à modifier
       const tweetToEdit = tweets.find(() => editingTweetId);
-      console.log(tweetToEdit);
-      console.log(editingTweetId);
 
-      // // Mettre à jour le texte du tweet
+      // Mettre à jour le texte du tweet
       if (tweetToEdit) {
         tweetToEdit.text = editedText;
-        console.log(editedText);
       }
 
       // Récupérer le contenu de la bdd firebase
@@ -129,7 +126,7 @@ export default function Profile() {
           }),
         },
       );
-      console.log(response);
+
       // Erreur
       if (!response.ok) {
         toast.error("Une erreur est survenue lors de la mise à jour.");
@@ -142,11 +139,42 @@ export default function Profile() {
 
     } catch (error) {
       toast.error("Une erreur est survenue lors de la mise à jour du tweet.");
-      console.error(error);
     }
   }
 
+  const handleDelete = async (tweet) => {
 
+    // Trouver le tweet à supprimer
+    setEditingTweetId(tweet.id);
+
+    try {
+
+      // Supprimer le tweet de la bdd firebase
+      const response = await fetch(
+        `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/tweets/${tweet.id}.json`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      // Erreur
+      if (!response.ok) {
+        toast.error("Une erreur est survenue lors de la suppression.");
+        return;
+      }
+
+      // Suppression réussie
+      toast.success("Tweet supprimé avec succès.")
+
+
+    } catch (error) {
+      toast.error("Une erreur est survenue lors de la suppression du tweet.");
+    }
+
+  }
 
   return (
     <>
@@ -157,8 +185,8 @@ export default function Profile() {
           <div className="flex justify-center pt-5">
             <div className="profileBack">
               <div className="flex justify-between items-center py-4">
-                <div className="flex gap-2 items-center">
-                  <CircleUserRound />
+                <div className="flex gap-3 items-center">
+                  <Avatar email={currentUser.email} />
                   <strong className="text-lg">
                     <Username />
                   </strong>
@@ -182,7 +210,7 @@ export default function Profile() {
           <div className="flex flex-col items-center">
             {editingTweetId &&
 
-              <div id="myModal" className="modal">
+              <div id="tweet" className="modal">
                 <div className="modalContent textAreaPost">
                   <textarea
                     className="bg-transparent border-none outline-none resize-none"
@@ -204,15 +232,17 @@ export default function Profile() {
                     <div>
                       <div className="flex gap-4 justify-between items-center">
                         <p className="text-md">{new Date(tweet.date).toLocaleDateString()}</p>
-                        <div className="flex flex-row gap-3 justify-start">
-                          <a href="#myModal">
+                        <div className="flex gap-3 items-start">
+                          <a href="#tweet">
                             <button
                               onClick={() => handleEdit(tweet)} >
                               <FilePenLine />
                             </button>
                           </a>
-                          <Trash2 />
-
+                          <button
+                            onClick={() => handleDelete(tweet)} >
+                            <Trash2 />
+                          </button>
                         </div>
                       </div>
                       <p className="pt-2">{tweet.text}</p>

@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         glass: "rgba(255, 255, 255, 0.35)",
+        glass2: "rgba(255, 255, 255, 0.95)",
         shadow: "rgba(0, 0, 0, 0.1)",
         button: "rgba(255, 255, 255, 0.85)",
         drk: "#302F2F",

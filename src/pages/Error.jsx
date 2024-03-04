@@ -9,7 +9,7 @@ export default function Error() {
 
     return (
         <>
-            <div className="bg-glass min-h-screen">
+            <div className="bg-glass min-h-screen w-screen">
                 <Header />
                 <div className="flex justify-end p-4">
                     <div className="navBack px-4 py-2 w-48 flex justify-center">
@@ -21,7 +21,7 @@ export default function Error() {
                     </div>
                 </div>
                 <Error404 />
-                <div className="bg-glass">
+                <div className="bg-glass px-2">
                     <Footer />
                 </div>
             </div>

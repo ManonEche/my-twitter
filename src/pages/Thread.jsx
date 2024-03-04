@@ -27,6 +27,7 @@ export default function Thread() {
 	const [comments, setComments] = useState({});
 	const [selectedUserTweets, setSelectedUserTweets] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
+	const [isFollowing, setIsFollowing] = useState(false);
 
 	// Functions
 	const onSubmit = async () => {
@@ -94,10 +95,12 @@ export default function Thread() {
 				const data = await response.json();
 
 				if (data) {
-					const tweetsArray = Object.entries(data).map(([id, tweet]) => ({
-						id,
-						...tweet
-					}));
+					const tweetsArray = Object.entries(data)
+						.filter(tweet => tweet[1].user.uid)
+						.map((tweet) => ({
+							...tweet[1],
+							id: tweet[0]
+						}));
 					setTweets(tweetsArray);
 				}
 			} catch (error) {
@@ -150,8 +153,6 @@ export default function Thread() {
 		setReplyText('');
 		setReplyingToTweet(null);
 	}
-
-
 
 	useEffect(() => {
 		const fetchComments = async (tweetId) => {
@@ -238,6 +239,91 @@ export default function Thread() {
 		}
 	}
 
+	const handleFollow = async (userIdToFollow) => {
+
+		const followData = {
+			followerId: currentUser.uid,
+			followingId: selectedUser.uid,
+		};
+
+		console.log(userIdToFollow);
+
+		const followEndpoint = isFollowing
+			? `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows/${userIdToFollow}.json`
+			: `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows.json`;
+
+		try {
+			// Ajouter à la bdd firebase
+			const response = await fetch(followEndpoint,
+				{
+					method: isFollowing ? "DELETE" : "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: isFollowing ? null : JSON.stringify(followData),
+				},
+			);
+
+			if (response.ok) {
+
+				setIsFollowing((prevIsFollowing) => !prevIsFollowing);
+
+			} else {
+				toast.error("Une erreur est survenue.");
+			}
+
+		} catch (error) {
+			toast.error("Une erreur est survenue.")
+		}
+	}
+
+	useEffect(() => {
+		const checkIfFollowing = async () => {
+			if (currentUser && selectedUser) {
+				try {
+					// Ajouter à la bdd firebase
+					const response = await fetch(
+						`https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows.json`,
+						{
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json",
+							},
+						},
+					);
+
+					const data = await response.json();
+
+					if (response.ok) {
+
+						const followsArray = Object.entries(data)
+							.map(([id, follow]) => ({
+								id,
+								...follow,
+							}));
+
+						const isFollowingUser = followsArray.some(
+							(follow) =>
+								follow.followerId === currentUser.uid &&
+								follow.followingId === selectedUser.uid
+						)
+
+						setIsFollowing(isFollowingUser);
+
+						console.log(followsArray[0].id);
+
+					} else {
+						toast.error("Une erreur est survenue.")
+					}
+
+				} catch (error) {
+					toast.error("Une erreur est survenue lors de la vérification de l'abonnement.")
+				}
+			}
+		}
+		checkIfFollowing();
+	}, [currentUser, selectedUser])
+
 	return (
 		<>
 			<div className="bg-glass min-h-screen">
@@ -284,7 +370,7 @@ export default function Thread() {
 
 										<p className="text-sm">{new Date(tweet.date).toLocaleDateString()}</p>
 									</div>
-									<p className="pt-2">{tweet.text}</p>
+									<p className="pt-4">{tweet.text}</p>
 									<div className="flex justify-end">
 										<button className="pb-4" onClick={() => handleReplyClick(tweet.id)}>
 											<MessageSquareMore />
@@ -349,7 +435,9 @@ export default function Thread() {
 													</strong>
 												</div>
 												<div className="pe-8">
-													<ButtonFollower>S'abonner</ButtonFollower>
+													<ButtonFollower onClick={() => handleFollow(selectedUser)}>
+														{isFollowing ? "Se désabonner" : "S'abonner"}
+													</ButtonFollower>
 												</div>
 											</div>
 										</div>
@@ -368,9 +456,9 @@ export default function Thread() {
 													<div key={tweet.id || index} className="backPost">
 														<div>
 															<div className="flex gap-4 justify-between items-center">
-																<p className="text-md">{new Date(tweet.date).toLocaleDateString()}</p>
+																<p className="text-sm font-normal">{new Date(tweet.date).toLocaleDateString()}</p>
 															</div>
-															<p className="pt-2">{tweet.text}</p>
+															<p className="pt-2 font-medium">{tweet.text}</p>
 
 														</div>
 													</div>

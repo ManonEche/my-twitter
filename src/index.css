@@ -104,8 +104,8 @@ input::placeholder {
 .drop-3 {
   height: 150px;
   width: 150px;
-  bottom: 145px;
-  left: 430px;
+  bottom: -80px;
+  left: 320px;
 }
 
 .drop-4 {
@@ -174,14 +174,6 @@ textarea::placeholder {
   border-bottom: 1px solid rgba(219, 219, 219, 0.3);
   width: 42vw;
   padding: 16px;
-}
-
-.followButton::before {
-  content: "Abonné"
-}
-
-.followButton:hover::before {
-  content: "Ne plus suivre"
 }
 
 .modal {
@@ -315,4 +307,26 @@ textarea::placeholder {
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
+}
+
+@media all and (max-width: 950px) {
+  textarea {
+    width: 70vw;
+  }
+
+  .backPost {
+    width: 70vw;
+  }
+
+  .profileBack {
+    width: 70vw;
+  }
+
+  .modalContent {
+    width: 70vw;
+  }
+
+  .titleProfile {
+    width: 70vw;
+  }
 }

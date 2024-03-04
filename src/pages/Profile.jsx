@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { FilePenLine, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
 import Button from "../components/Buttons/Button";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
@@ -15,7 +14,7 @@ import Avatar from "../components/Avatar/Avatar";
 export default function Profile() {
 
   // Variables
-  const currentUser = auth.currentUser || {email: ""};
+  const currentUser = auth.currentUser || { email: "" };
 
 
   // States
@@ -184,20 +183,12 @@ export default function Profile() {
         <div className="min-h-screen">
           <div className="flex justify-center pt-5">
             <div className="profileBack">
-              <div className="flex justify-between items-center py-4">
-                <div className="flex gap-3 items-center">
+              <div className="flex justify-between items-center p-6">
+                <div className="flex gap-4 items-center">
                   <Avatar email={currentUser.email} />
                   <strong className="text-lg">
                     <Username />
                   </strong>
-                </div>
-                <div className="flex gap-3">
-                  <Link to="/followers">
-                    <Button>Followers</Button>
-                  </Link>
-                  <Link to="/suivis">
-                    <Button>Suivi(e)s</Button>
-                  </Link>
                 </div>
               </div>
             </div>
@@ -231,7 +222,7 @@ export default function Profile() {
 
                     <div>
                       <div className="flex gap-4 justify-between items-center">
-                        <p className="text-md">{new Date(tweet.date).toLocaleDateString()}</p>
+                        <p className="text-sm font-normal">{new Date(tweet.date).toLocaleDateString()}</p>
                         <div className="flex gap-3 items-start">
                           <a href="#tweet">
                             <button
@@ -245,7 +236,7 @@ export default function Profile() {
                           </button>
                         </div>
                       </div>
-                      <p className="pt-2">{tweet.text}</p>
+                      <p className="pt-2 font-medium">{tweet.text}</p>
 
                     </div>
                   </div>

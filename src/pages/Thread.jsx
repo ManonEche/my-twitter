@@ -28,6 +28,7 @@ export default function Thread() {
 	const [selectedUserTweets, setSelectedUserTweets] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [isFollowing, setIsFollowing] = useState(false);
+	const [userFollowId, setUserFollowId] = useState(null);
 
 	// Functions
 	const onSubmit = async () => {
@@ -143,7 +144,7 @@ export default function Thread() {
 			setReplyText('');
 			setReplyingToTweet(null);
 
-
+			location.reload();
 		} catch (error) {
 			toast.error("Une erreur est survenue lors de la publication.")
 		}
@@ -239,17 +240,16 @@ export default function Thread() {
 		}
 	}
 
-	const handleFollow = async (userIdToFollow) => {
+	const handleFollow = async () => {
 
 		const followData = {
 			followerId: currentUser.uid,
 			followingId: selectedUser.uid,
 		};
 
-		console.log(userIdToFollow);
 
 		const followEndpoint = isFollowing
-			? `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows/${userIdToFollow}.json`
+			? `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows/${userFollowId}.json`
 			: `https://mon-twitter-default-rtdb.europe-west1.firebasedatabase.app/follows.json`;
 
 		try {
@@ -309,8 +309,7 @@ export default function Thread() {
 						)
 
 						setIsFollowing(isFollowingUser);
-
-						console.log(followsArray[0].id);
+						setUserFollowId(followsArray[0].id);
 
 					} else {
 						toast.error("Une erreur est survenue.")
